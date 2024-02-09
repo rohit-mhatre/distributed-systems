@@ -1,16 +1,15 @@
 import java.util.*;
 
-//change
+
 public class Lamport {
 
-    // Function to find the maximum timestamp
-    // between 2 events
+    // Calculate maximum timestamp b/w two events
     static int max1(int a, int b) {
         // Return the greatest of the two
         return (a > b) ?  a :  b;
     }
 
-    // Function to display the logical timestamp
+    // Display the logical timestamp
     static void display(int e1, int e2, int p1[], int p2[]) {
         System.out.print("\nThe time stamps of events in P1:\n");
 
@@ -20,16 +19,15 @@ public class Lamport {
 
         System.out.println("\nThe time stamps of events in P2:");
 
-        // Print the array p2[]
         for (int i = 0; i < e2; i++)
             System.out.print(p2[i] + " ");
     }
 
-    // Function to find the timestamp of events
+    // Find the timestamp of events
     static void lamportLogicalClock(int e1, int e2, int m[][]) {
         int p1[] = new int[e1];
         int p2[] = new int[e2];
-        // Initialize p1[] and p2[]
+
         for (int i = 0; i < e1; i++)
             p1[i] = i + 1;
 
@@ -48,8 +46,7 @@ public class Lamport {
         for (int i = 0; i < e1; i++) {
             for (int j = 0; j < e2; j++) {
 
-                // Change the timestamp if the
-                // message is sent
+                // Update timestamp if message is sent
                 if (m[i][j] == 1) {
                     p2[j] = max1(p2[j], p1[i] + 1);
                     // Update subsequent timestamps in P2 only if necessary
@@ -60,10 +57,7 @@ public class Lamport {
                     }
                 }
                 
-                
-
-                // Change the timestamp if the
-                // message is received
+                // Update timestamp if message is received
                 if (m[i][j] == -1) {
                     p1[i] = max1(p1[i], p2[j] + 1);
                     for (int k = i + 1; k < e1; k++)
@@ -72,15 +66,12 @@ public class Lamport {
             }
         }
 
-        // Function Call
         display(e1, e2, p1, p2);
     }
 
     public static void main(String args[]) {
         int e1 = 7, e2 = 6;
         int m[][] = new int[7][6];
-        // message is sent and received
-        // between two process
 
         /* dep[i][j] = 1, if message is sent
                 from ei to ej
@@ -130,7 +121,6 @@ public class Lamport {
         m[6][4] = 0;
         m[6][5] = 0;
 
-        // Function Call
         lamportLogicalClock(e1, e2, m);
     }
 }
